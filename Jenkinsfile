@@ -1,6 +1,10 @@
 
 timeout(time: 20, unit: 'MINUTES') {
   node('maven') {
+    stage('git checkout') {
+      echo "Checking out git repository"
+      checkout scm
+    }
     stage('build') {
       sh "mvn clean fabric8:deploy -Popenshift"
     }

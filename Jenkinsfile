@@ -1,23 +1,29 @@
+podTemplate(
+        inheritFrom: "maven",
+        label: "myJenkins",
+        cloud: "openshift",
+        volumes: [
+                persistentVolumeClaim(claimName: "m2repo", mountPath: "/home/jenkins/.m2/")
+        ]) {
 
-timeout(time: 20, unit: 'MINUTES') {
-  node('maven') {
-    stage('git checkout') {
-      echo "Checking out git repository"
-      checkout scm
+    timeout(time: 40, unit: 'MINUTES') {
+
+        node('myJenkins') {
+            stage('git checkout') {
+                echo "Checking out git repository"
+                checkout scm
+            }
+            stage('build') {
+                sh "mvn clean fabric8:deploy -Popenshift"
+            }
+        }
     }
-    stage('build') {
-      sh "mvn clean fabric8:deploy -Popenshift"
-    }
-  }
 }
 
-
-
-
 // path of the template to use
-        // def templatePath = 'https://raw.githubusercontent.com/openshift/nodejs-ex/master/openshift/templates/nodejs-mongodb.json'
-        // name of the template that will be created
-        // def templateName = 'nodejs-mongodb-example'
+// def templatePath = 'https://raw.githubusercontent.com/openshift/nodejs-ex/master/openshift/templates/nodejs-mongodb.json'
+// name of the template that will be created
+// def templateName = 'nodejs-mongodb-example'
 //        openshift.withCluster() {
 //          openshift.withProject() {
 //            echo "Using project: ${openshift.project()}"

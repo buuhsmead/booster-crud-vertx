@@ -1,6 +1,6 @@
 
 timeout(time: 20, unit: 'MINUTES') {
-  node('nodejs') {
+  node('maven') {
     stage('build') {
       sh "mvn clean fabric8:deploy -Popenshift"
     }

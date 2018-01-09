@@ -6,7 +6,7 @@ podTemplate(
                 persistentVolumeClaim(claimName: "m2repo", mountPath: "/home/jenkins/.m2/")
         ]) {
 
-    timeout(time: 40, unit: 'MINUTES') {
+ //   timeout(time: 40, unit: 'MINUTES') {
 
         node('myJenkins') {
             stage('git checkout') {
@@ -17,7 +17,7 @@ podTemplate(
                 sh "mvn clean fabric8:deploy -Popenshift"
             }
         }
-    }
+  //  }
 }
 
 // path of the template to use
